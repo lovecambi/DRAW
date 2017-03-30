@@ -62,9 +62,7 @@ class DRAW(object):
 
         # initial states and states variables
         self.c_prev_r = tf.zeros([self.batch_size, self.H, self.W, self.C])
-        self.h_dis_prev_r = tf.zeros((self.batch_size, self.gen_size))
         self.h_gen_prev_r = tf.zeros((self.batch_size, self.gen_size))
-
         self.gen_state_r = self.lstm_gen.zero_state(self.batch_size, tf.float32)
         self.enc_state_r = self.lstm_enc.zero_state(self.batch_size, tf.float32)
         self.h_gen_rs = [0] * self.T
