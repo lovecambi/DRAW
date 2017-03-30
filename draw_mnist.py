@@ -359,7 +359,7 @@ if __name__ == "__main__":
     valid_data = np.reshape(dataset['X_valid'], [-1, 28, 28, 1])
     test_data = np.reshape(dataset['X_test'], [-1, 28, 28, 1])
     
-    mymodel = RGAN(img_shape=[28, 28, 1], train_mode=True, model_path="model/mnist",
+    mymodel = DRAW(img_shape=[28, 28, 1], train_mode=True, model_path="model/mnist",
                 read_attn="Gaussian", read_n=5, write_attn="Gaussian", write_n=5, 
                 T=64)
     mymodel.train(train_data,  test_data, max_epoch=500, K=1)
