@@ -83,12 +83,6 @@ class DRAW(object):
         self.x_r = tf.placeholder(tf.float32,shape=[self.batch_size] + list(self.img_shape)) 
         self.wu = tf.placeholder(tf.float32) # warm up
         self.Lz_r = 0.0
-        self.Lz_g = 0.0
-        self.L_attn = 0.0
-        self.d_loss_r = 0.0
-        self.d_loss_g = 0.0
-        self.d_loss = 0.0
-        self.g_loss = 0.0
         
         for t in xrange(self.T):
 
@@ -166,12 +160,12 @@ class DRAW(object):
                 
                 if epoch % 10 == 0 or epoch == max_epoch:
                     xshow = self.get_showimages(sess)
-                    out_file = os.path.join("output_mnist","draw_data"+str(epoch)+".npy")
+                    out_file = os.path.join(self.model_path,"draw_data"+str(epoch)+".npy")
                     np.save(out_file, xshow)
                     self.save_model(saver, sess, step=epoch)
                 
             xshow = self.get_showimages(sess, self.batch_size)
-            out_file = os.path.join("output_mnist","draw_data_end.npy")
+            out_file = os.path.join(self.model_path,"draw_data_end.npy")
             np.save(out_file, xshow)
 
 
@@ -180,7 +174,7 @@ class DRAW(object):
         save model with path error checking
         """
         if self.model_path is None:
-            my_path = "model/myckpt" # default path in tensorflow saveV2 format
+            my_path = "model/" # default path in tensorflow saveV2 format
             # try to make directory
             if not os.path.exists("model"):
                 try:
@@ -189,7 +183,7 @@ class DRAW(object):
                     if e.errno != errno.EEXIST:
                         raise
         else: 
-            my_path = self.model_path
+            my_path = self.model_path + "/mymodel"
                 
         saver.save(sess, my_path, global_step=step)
         
@@ -336,7 +330,7 @@ if __name__ == "__main__":
     valid_data = np.reshape(dataset['X_valid'], [-1, 28, 28, 1])
     test_data = np.reshape(dataset['X_test'], [-1, 28, 28, 1])
     
-    mymodel = DRAW(img_shape=[28, 28, 1], train_mode=True, model_path="model/mnist",
+    mymodel = DRAW(img_shape=[28, 28, 1], train_mode=True, model_path="model_result",
                 read_attn="Gaussian", read_n=5, write_attn="Gaussian", write_n=5, 
                 T=64)
     mymodel.train(train_data,  test_data, max_epoch=500, K=1)
