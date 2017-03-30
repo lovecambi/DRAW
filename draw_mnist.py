@@ -232,31 +232,8 @@ class DRAW(object):
     def generate(self, state, input):
         with tf.variable_scope("g_lstm",reuse=self.DO_SHARE):
             return self.lstm_gen(input, state)
-    
-    
-    def discriminate(self, state, input):
-        with tf.variable_scope("d_lstm",reuse=self.DO_SHARE):
-            return self.lstm_dis(input, state)
-    
-    
-    def classifier(self, h): # means regression in WGAN
-        with tf.variable_scope("d_classifier",reuse=self.DO_SHARE):
-            yl = linear(h, 1)
-            return yl
-    
-   
-    def final_classifer(self, x, Cc=32): # means regression in WGAN
-        with tf.variable_scope("d_fconv1",reuse=None):
-            conv1 = lrelu(conv2d(x, self.C, Cc, 4, 4, 2, 2, padding='SAME')) # 14 x 14 x Cc
-        with tf.variable_scope("d_fconv2",reuse=None):
-            conv2 = lrelu(conv2d(conv1, Cc, 2*Cc, 4, 4, 2, 2, padding='SAME')) # 7 x 7 x 2Cc
-        with tf.variable_scope("d_fconv3",reuse=None):
-            conv3 = lrelu(conv2d(conv2, 2*Cc, 4*Cc, 4, 4, 2, 2, padding='SAME')) # 4 x 4 x 4Cc
-        with tf.variable_scope("d_fconv4",reuse=None):
-            conv4 = conv2d(conv3, 8*Cc, 1, 4, 4, 1, 1, padding='VALID') # 1 x 1 x 1
-        return tf.reshape(conv4, [-1, 1]), conv3
-    
-            
+        
+        
     def write(self, h):
         with tf.variable_scope("g_write", reuse=self.DO_SHARE):
             w = linear(h, self.write_size)
