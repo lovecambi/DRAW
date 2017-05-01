@@ -9,6 +9,5 @@ After 200 Epochs, the generated mnist digits from latent space
 
 ![DRAW MNIST](https://github.com/lovecambi/DRAW/blob/master/generated_minst.jpg)
 
-aaa
---
+aaa<br />
 bbb
