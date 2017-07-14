@@ -56,7 +56,7 @@ class DRAW(object):
         self.e_learning_rate = e_learning_rate
         self.eps = eps
         
-        # discriminator and generator RNN
+        # generator RNN
         self.lstm_gen = tf.nn.rnn_cell.LSTMCell(self.gen_size, state_is_tuple=True)
         self.lstm_enc = tf.nn.rnn_cell.LSTMCell(self.enc_size, state_is_tuple=True)
 
